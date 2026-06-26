@@ -1,0 +1,37 @@
+{
+  "title": "Play & Win",
+  "subtitle": "Spin · Quiz · Scratch",
+  "hero_badge": "REWARD ZONE",
+  "hero_heading": "Play. Win. Smile.",
+  "hero_body": "Every game has a guaranteed reward at this table.",
+  "spin": {
+    "title": "Spin the Wheel",
+    "body": "Try your luck for table perks.",
+    "reward": "Up to 25% off",
+    "spin_now": "Spin Now",
+    "spinning": "Spinning...",
+    "you_won": "You won",
+    "redeem": "Show this to your server to redeem."
+  },
+  "quiz": {
+    "title": "Quick Quiz",
+    "body": "3 fun questions. Win a treat.",
+    "reward": "Free dessert",
+    "question_counter": "Question {{current}} of {{total}}",
+    "results": "Results",
+    "your_score": "Your score",
+    "perfect": "Foodie genius! Free dessert unlocked.",
+    "good": "Nice! Get 10% off your next order.",
+    "thanks": "Thanks for playing!"
+  },
+  "scratch": {
+    "title": "Scratch Card",
+    "body": "Tap to reveal your surprise.",
+    "reward": "Mystery prize",
+    "tap_to_scratch": "Tap to scratch",
+    "reveal_hint": "Reveal your surprise",
+    "your_reward": "Your reward",
+    "next_visit": "on your next visit",
+    "reveal_button": "Reveal Reward"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "title": "Loyalty Programme",
+  "promo_badge": "LOYALTY",
+  "form": {
+    "heading": "Join Our Loyalty Programme",
+    "subheading": "Enter your phone number and we'll send you a personalised link via WhatsApp. Add your email to also receive it by email.",
+    "phone_placeholder": "50 123 4567",
+    "email_placeholder": "you@example.com (optional)",
+    "submit": "Send My Link",
+    "error_country_code_required": "Please enter your country code.",
+    "error_phone_required": "Please enter your phone number.",
+    "error_phone_invalid": "Please enter a valid phone number.",
+    "error_email_invalid": "Please enter a valid email address.",
+    "error_generic": "Something went wrong. Please try again."
+  },
+  "benefits_title": "Benefits",
+  "loading": "Generating your link…",
+  "success": {
+    "heading": "Link Sent!",
+    "subheading": "Review link shared to WhatsApp successfully.",
+    "start_over": "Start Over"
+  },
+  "not_configured": {
+    "title": "Loyalty Programme Not Set Up Yet",
+    "message": "This venue hasn't configured its loyalty form yet. Please ask a staff member for assistance."
+  }
+}

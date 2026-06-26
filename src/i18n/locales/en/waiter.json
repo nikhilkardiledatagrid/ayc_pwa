@@ -1,0 +1,26 @@
+{
+  "title": "Call Server",
+  "subtitle": "We're here to help",
+  "idle": {
+    "heading": "Need assistance?",
+    "subheading": "Tap a button below and a staff member will come to your table.",
+    "waiter_body": "Server will come to your table",
+    "invoice_body": "We'll bring the cheque to your table"
+  },
+  "call_waiter": "Need Help",
+  "call_invoice": "Call for Bill",
+  "calling": "Calling…",
+  "waiting": {
+    "waiter_heading": "Calling Server…",
+    "invoice_heading": "Calling for Bill…",
+    "message": "Your request has been sent. A staff member will be with you shortly.",
+    "status": "Waiting for response",
+    "cancel_label": "Cancel call"
+  },
+  "success": {
+    "waiter_heading": "A server has been notified",
+    "invoice_heading": "A server has been notified",
+    "message": "Someone will be with you shortly."
+  },
+  "error_generic": "Failed to send request. Please try again."
+}

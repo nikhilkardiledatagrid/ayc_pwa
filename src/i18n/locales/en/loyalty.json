@@ -1,0 +1,18 @@
+{
+  "title": "Join AYC Rewards",
+  "subtitle": "Unlock your table perks",
+  "promo_badge": "JOIN NOW",
+  "promo_title": "Unlock your table perks",
+  "promo_body": "Join AYC and get more from every visit.",
+  "name_placeholder": "Name",
+  "email_placeholder": "Email",
+  "phone_placeholder": "Phone",
+  "city_placeholder": "City",
+  "submit": "Join Now",
+  "submitting": "Joining…",
+  "thanks_heading": "You're in!",
+  "thanks_body": "Welcome to AYC Rewards. Your perks are now active across every visit.",
+  "back_home": "Back Home",
+  "error_generic": "Something went wrong. Please try again.",
+  "clear_saved_info": "Clear saved info"
+}

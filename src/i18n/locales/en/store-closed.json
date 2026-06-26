@@ -1,0 +1,14 @@
+{
+  "heading": "We're closed right now",
+  "subheading": "Online ordering is not available at this time.",
+  "back": "Go back",
+  "alt_cta_prompt": "While you wait, explore what's available:",
+  "cta": {
+    "wifi": "Free WiFi",
+    "review": "Leave a Review",
+    "lead": "Join Loyalty",
+    "game": "Play a Game",
+    "waiter": "Call Waiter"
+  },
+  "closed_badge": "Closed"
+}

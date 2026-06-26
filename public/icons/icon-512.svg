@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="80" fill="#1F1F1F"/>
+  <rect x="32" y="32" width="448" height="448" rx="64" fill="#E73632"/>
+  <text
+    x="256"
+    y="300"
+    font-family="system-ui, -apple-system, sans-serif"
+    font-size="172"
+    font-weight="700"
+    fill="#FFFFFF"
+    text-anchor="middle"
+    dominant-baseline="auto"
+    letter-spacing="-6"
+  >AYC</text>
+</svg>

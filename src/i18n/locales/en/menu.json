@@ -1,0 +1,81 @@
+{
+  "title": "Menu",
+  "heading_main": "What are you",
+  "heading_sub": "craving today?",
+  "all_categories": "All",
+  "loading": "Loading menu…",
+  "empty": {
+    "title": "Menu not available",
+    "message": "The menu for this venue isn't available right now."
+  },
+  "error": {
+    "title": "Couldn't load the menu",
+    "message": "Please try again in a moment."
+  },
+  "no_table": {
+    "title": "No table assigned",
+    "message": "No table assigned to this device. Double-tap the title above to assign one."
+  },
+  "retry": "Try again",
+  "unavailable": "Unavailable",
+  "trending": "Trending",
+  "external_menu": { "cta": "View menu", "open": "Open", "link_hint": "Opens the full menu" },
+  "chefs_specials": "Chef's Specials",
+  "detail": {
+    "close": "Close",
+    "allergens": "Allergens",
+    "nutrition": "Nutrition",
+    "serving_size": "Serving size",
+    "calories": "Calories",
+    "fat": "Fat",
+    "sodium": "Sodium",
+    "protein": "Protein",
+    "calcium": "Calcium",
+    "carbon_footprint": "Carbon footprint",
+    "high_salt": "High salt content",
+    "burn_walking": "{{minutes}} min walk to burn",
+    "no_details": "No additional details for this item.",
+    "spiciness": "Spice Level",
+    "contains": "Allergens",
+    "choices": "Choices",
+    "addons": "Add-ons",
+    "required": "Required",
+    "spiciness_levels": {
+      "none": "None",
+      "mild": "Mild",
+      "medium": "Medium",
+      "hot": "Hot",
+      "spicy": "Spicy",
+      "extra_hot": "Extra Hot"
+    },
+    "add_to_cart": "Add to Cart",
+    "limited_offer": "Limited time price",
+    "you_save": "Save {{amount}} ({{percent}}% off)",
+    "save_amount": "Save {{amount}}",
+    "save_percent": "{{percent}}% off"
+  },
+  "cart": {
+    "title": "Your Order",
+    "view_order": "View Order",
+    "close": "Close Cart",
+    "total": "Total",
+    "checkout": "Proceed to Checkout",
+    "checkout_not_implemented": "Checkout flow pending integration.",
+    "order_placed_title": "Order placed!",
+    "order_placed_message": "Please collect your order at the counter.",
+    "done": "Done",
+    "limited": "Limited",
+    "checking": "Checking prices…",
+    "prices_changed": "Some prices changed. Please review your order.",
+    "checkout_error": "Couldn't validate your order. Please try again.",
+    "offline_retry": "You appear to be offline. Please try again.",
+    "item_unavailable": "No longer available — please remove",
+    "item_no_longer_available": "This item is no longer available",
+    "menu_refreshed": "The menu has been updated."
+  },
+  "upsell": {
+    "title": "You might also like",
+    "subtitle": "Add something to complete your order",
+    "no_thanks": "No, thanks"
+  }
+}

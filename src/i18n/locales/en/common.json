@@ -1,0 +1,9 @@
+{
+  "connecting": "Connecting…",
+  "no_features": "No features configured for this screen.",
+  "welcome": "Welcome",
+  "welcome_to": "Welcome to {{venue_name}}",
+  "get_started": "Select an option below to get started",
+  "table": "Table {{number}}",
+  "coming_soon": "Journey: {{journey}} — coming soon"
+}

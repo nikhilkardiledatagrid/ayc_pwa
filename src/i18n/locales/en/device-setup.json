@@ -1,0 +1,27 @@
+{
+  "title": "AYC Network",
+  "subtitle": "Device Setup",
+  "step1": {
+    "heading": "Enter Device QR Code",
+    "description": "Type or scan the QR code printed on the back of this device.",
+    "placeholder": "e.g. AYC-12345678",
+    "submit": "Submit",
+    "loading": "Looking up device…"
+  },
+  "step2": {
+    "heading": "Select Your Table",
+    "description": "Choose the table this device is placed on.",
+    "venue_label": "Venue",
+    "device_id_label": "Device ID",
+    "confirm": "Confirm Setup",
+    "back": "Back",
+    "current": "Current"
+  },
+  "success": "Device configured successfully.",
+  "errors": {
+    "qr_required": "Please enter the QR code.",
+    "qr_not_found": "QR code not found. Check the code and try again.",
+    "network": "Network error. Please check your connection.",
+    "generic": "Something went wrong. Please try again."
+  }
+}

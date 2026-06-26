@@ -1,0 +1,43 @@
+{
+  "title": "WiFi Access",
+  "subtitle": "Stay connected at your table",
+  "form": {
+    "heading": "Connect to Wi-Fi",
+    "description": "Enter your details to access the venue Wi-Fi.",
+    "name_label": "Full Name",
+    "first_name_placeholder": "First name",
+    "last_name_placeholder": "Last name",
+    "mobile_label": "Mobile Number",
+    "mobile_placeholder": "e.g. 50 123 4567",
+    "country_code_label": "Country Code",
+    "country_code_placeholder": "+971",
+    "submit": "Get Wi-Fi Access",
+    "submitting": "Connecting…",
+    "error_first_name_required": "Please enter your first name.",
+    "error_last_name_required": "Please enter your last name.",
+    "error_country_code_required": "Please enter your country code.",
+    "error_mobile_required": "Please enter your mobile number.",
+    "error_mobile_invalid": "Please enter a valid mobile number.",
+    "error_network": "Could not connect. Please try again.",
+    "error_generic": "Something went wrong. Please try again.",
+    "clear_saved_info": "Clear saved info"
+  },
+  "slider": {
+    "you_are_set": "You're all set!",
+    "scan_or_password": "Scan the QR or use the password below.",
+    "network_label": "Network",
+    "password_label": "Password",
+    "security_label": "Security",
+    "open_network": "Open Network",
+    "network_counter": "{{current}} of {{total}}"
+  },
+  "loading": "Loading Wi-Fi details…",
+  "no_wifi": {
+    "title": "No Wi-Fi Configured",
+    "message": "Ask a staff member for assistance."
+  },
+  "fetch_error": {
+    "title": "Could not load Wi-Fi",
+    "message": "Please try again or ask a staff member for assistance."
+  }
+}

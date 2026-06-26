@@ -1,0 +1,39 @@
+{
+  "title": "Rate your visit",
+  "subtitle": "Your feedback shapes our table",
+  "rating": {
+    "heading": "How was everything?",
+    "subheading": "Tap a star to begin"
+  },
+  "feedback": {
+    "heading": "Sorry to hear that",
+    "subheading": "Tell us what went wrong",
+    "what_went_wrong": "What went wrong?",
+    "issues": ["Food quality", "Service", "Wait time", "Cleanliness", "Order accuracy", "Other"],
+    "first_name_placeholder": "First name (optional)",
+    "last_name_placeholder": "Last name (optional)",
+    "textarea_placeholder": "Tell us more (optional)",
+    "submit": "Send feedback",
+    "skip": "Skip",
+    "clear_saved_info": "Clear saved info"
+  },
+  "submitting": "Submitting…",
+  "qr_display": {
+    "heading": "Glad you enjoyed it!",
+    "subheading": "Scan with your phone to leave a quick Google review",
+    "back_to_menu": "Back to Menu",
+    "return_notice": "This screen will return automatically in a moment"
+  },
+  "thank_you": {
+    "heading": "Thanks for your feedback!",
+    "subheading": "We'll use it to improve your experience."
+  },
+  "rate_again": "Rate Again",
+  "error": {
+    "generic": "Something went wrong. Please try again."
+  },
+  "not_configured": {
+    "title": "Reviews Not Set Up Yet",
+    "message": "This venue hasn't configured its review link yet. Please ask a staff member for assistance."
+  }
+}

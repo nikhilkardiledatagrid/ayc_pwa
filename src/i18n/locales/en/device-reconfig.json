@@ -1,0 +1,24 @@
+{
+  "password": {
+    "heading": "Operator Access",
+    "description": "Enter the device password to change the table for this device.",
+    "placeholder": "Password",
+    "submit": "Continue",
+    "cancel": "Cancel",
+    "loading": "Verifying…"
+  },
+  "table": {
+    "heading": "Change Table",
+    "description": "Select the new table for this device.",
+    "confirm": "Save Table",
+    "back": "Cancel",
+    "loading": "Saving…",
+    "current": "Current"
+  },
+  "errors": {
+    "password_required": "Please enter the password.",
+    "password_invalid": "Incorrect password. Please try again.",
+    "network": "Network error. Please check your connection.",
+    "generic": "Something went wrong. Please try again."
+  }
+}

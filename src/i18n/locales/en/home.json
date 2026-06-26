@@ -1,0 +1,14 @@
+{
+  "header": {
+    "brand": "AYC Network"
+  },
+  "cta": {
+    "menu":      "Menu",
+    "wifi":      "Wi-Fi",
+    "lead":      "Leads",
+    "review":    "Rate Us",
+    "game":      "Play & Win",
+    "dashboard": "Dashboard",
+    "waiter":    "Call Server"
+  }
+}
