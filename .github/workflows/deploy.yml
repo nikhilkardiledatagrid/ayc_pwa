@@ -32,7 +32,6 @@ jobs:
       VITE_API_BASE_URL: https://api-aycqa.datagrid.co.in/api/v1
       VITE_APP_NAME: AYC PWA
       VITE_APP_ENV: production
-      VITE_API_STATIC_TOKEN: ${{ secrets.VITE_API_STATIC_TOKEN }}
     steps:
       - uses: actions/checkout@v4
 
