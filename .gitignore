@@ -16,8 +16,8 @@ dev-dist
 testcases_report/
 
 # Environment files
-.env
-.env.development
+# .env
+# .env.development
 .env.production
 .env.local
 .env.*.local
