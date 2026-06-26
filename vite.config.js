@@ -12,6 +12,10 @@ export default defineConfig(({ mode }) => {
     .replace(/\/api\/v1\/?$/, '')
 
   return {
+    // GitHub Pages serves this project repo under /ayc_pwa/ (not the domain
+    // root), so every built asset/route must be prefixed with that path. If you
+    // later attach a custom domain (served from /), change this back to '/'.
+    base: '/ayc_pwa/',
     plugins: [
       react(),
       tailwindcss(),
@@ -37,7 +41,7 @@ export default defineConfig(({ mode }) => {
           // error page instead of the cached app shell. navigateFallback widens
           // that to every route; the denylist keeps actual API calls from ever
           // being served the HTML shell.
-          navigateFallback: '/index.html',
+          navigateFallback: '/ayc_pwa/index.html',
           navigateFallbackDenylist: [/^\/api\//],
           // Menu item images are venue-uploaded and served at runtime (not part
           // of the build), so they need a runtime rule rather than globPatterns.

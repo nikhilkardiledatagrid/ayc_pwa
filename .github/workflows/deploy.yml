@@ -1,0 +1,67 @@
+name: Deploy to GitHub Pages
+
+# Build the Vite app and publish it to GitHub Pages on every push to main
+# (and on-demand via the Actions tab).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Permissions required by the official Pages deploy action.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment; let an in-progress run finish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # VITE_* vars are baked into the bundle at build time. The API token is
+      # pulled from a repo secret so it is never committed to the repository
+      # (mirrors the gitignored .env). Add it under:
+      #   Settings → Secrets and variables → Actions → Secrets → New repository secret
+      #   Name: VITE_API_STATIC_TOKEN
+      # The API base URL and app name are not credentials, so they stay inline;
+      # move them to repo Variables (vars.*) if they differ per environment.
+      VITE_API_BASE_URL: https://api-aycqa.datagrid.co.in/api/v1
+      VITE_APP_NAME: AYC PWA
+      VITE_APP_ENV: production
+      VITE_API_STATIC_TOKEN: ${{ secrets.VITE_API_STATIC_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      # SPA fallback: GitHub Pages returns 404.html for unknown paths. Serving a
+      # copy of index.html there lets a hard refresh on a deep route (e.g.
+      # /ayc_pwa/menu) load the app shell instead of GitHub's 404 page.
+      - run: cp dist/index.html dist/404.html
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

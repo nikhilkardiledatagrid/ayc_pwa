@@ -30,16 +30,23 @@ import BottomNav from './components/layout/BottomNav'
 import FloatingWaiterCall from './components/layout/FloatingWaiterCall'
 import OfflineBanner from './components/feedback/OfflineBanner'
 
-/** Read journey key from URL pathname — e.g. /menu → 'menu' */
+// Deploy base path (e.g. '/' locally, '/ayc_pwa/' on GitHub Pages). Vite injects
+// this from the `base` config so routing works identically at the domain root or
+// under a subpath. Always has a trailing slash.
+const BASE = import.meta.env.BASE_URL
+
+/** Read journey key from URL pathname — e.g. /ayc_pwa/menu → 'menu' */
 const readJourneyFromUrl = () => {
-  const key = window.location.pathname.replace(/^\//, '').split('/')[0]
+  let path = window.location.pathname
+  if (path.startsWith(BASE)) path = path.slice(BASE.length)
+  const key = path.replace(/^\//, '').split('/')[0]
   return Object.values(JOURNEYS).includes(key) ? key : null
 }
 
-/** Push path while preserving all device query params */
+/** Push path (under the deploy base) while preserving all device query params */
 const syncJourneyToUrl = (key) => {
-  const path = key ? `/${key}` : `/${JOURNEYS.MENU}`
-  window.history.pushState(null, '', `${path}${window.location.search}`)
+  const journey = key || JOURNEYS.MENU
+  window.history.pushState(null, '', `${BASE}${journey}${window.location.search}`)
 }
 
 /**
