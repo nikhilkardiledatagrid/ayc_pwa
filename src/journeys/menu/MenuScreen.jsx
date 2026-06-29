@@ -174,7 +174,7 @@ const ItemCard = ({ item, t, onSelect, onIncrement }) => {
           <p className="font-bold text-[17px] item-card-title leading-tight text-fg line-clamp-1 min-h-[1.2em]">
             {item.name}
           </p>
-          <p 
+          <p
             className="mt-1 mb-2 text-fg item-card-desc line-clamp-2 min-h-[2.7em] font-sans leading-[18px]"
             style={{ fontSize: 'var(--font-size-body, 13px)' }}
           >
@@ -339,8 +339,8 @@ export const QuickAddSheet = ({ item, t, onClose, onAdded, onUnavailable, source
                   key={opt.id}
                   onClick={() => handleToggle(opt)}
                   className={`h-11 px-5 rounded-full border font-bold text-[13px] flex items-center justify-center transition-all active:scale-95 ${isSelected
-                      ? 'bg-primary border-primary text-secondary shadow-soft'
-                      : 'bg-card border-border text-fg'
+                    ? 'bg-primary border-primary text-secondary shadow-soft'
+                    : 'bg-card border-border text-fg'
                     }`}
                 >
                   <span>{opt.name}</span>
@@ -476,7 +476,7 @@ export const QuickAddSheet = ({ item, t, onClose, onAdded, onUnavailable, source
             <section>
               <h3 className="text-[11px] uppercase tracking-[0.16em] font-black text-fg mb-2">Spice Level</h3>
               <div className="flex gap-1.5 flex-wrap">
-                <span 
+                <span
                   className="px-3 h-8 inline-flex items-center rounded-full bg-primary/10 text-primary font-bold"
                   style={{ fontSize: 'var(--font-size-body, 11px)' }}
                 >
@@ -493,8 +493,8 @@ export const QuickAddSheet = ({ item, t, onClose, onAdded, onUnavailable, source
               <h3 className="text-[11px] uppercase tracking-[0.16em] font-black text-fg mb-2">Allergens</h3>
               <div className="flex gap-2 flex-wrap">
                 {warnings.map((w) => (
-                  <span 
-                    key={w.id} 
+                  <span
+                    key={w.id}
                     className="rounded-full bg-red-500/10 px-3 py-1 font-bold text-red-500 border border-red-500/20"
                     style={{ fontSize: 'var(--font-size-body, 12px)' }}
                   >
@@ -510,8 +510,8 @@ export const QuickAddSheet = ({ item, t, onClose, onAdded, onUnavailable, source
               <h3 className="text-[11px] uppercase tracking-[0.16em] font-black text-fg mb-2">Allergens</h3>
               <div className="flex gap-1.5 flex-wrap">
                 {item.allergens.map((a) => (
-                  <span 
-                    key={a} 
+                  <span
+                    key={a}
                     className="px-3 h-8 inline-flex items-center rounded-full bg-primary/10 text-primary font-bold"
                     style={{ fontSize: 'var(--font-size-body, 11px)' }}
                   >
@@ -920,8 +920,8 @@ const ItemDetailModal = ({ item: initialItem, t, onClose, onAdded, onUnavailable
                   key={opt.id}
                   onClick={() => handleToggle(opt)}
                   className={`h-11 px-5 rounded-full border font-bold text-[13px] flex items-center justify-center transition-all active:scale-95 ${isSelected
-                      ? 'bg-primary border-primary text-secondary shadow-soft'
-                      : 'bg-card border-border text-fg'
+                    ? 'bg-primary border-primary text-secondary shadow-soft'
+                    : 'bg-card border-border text-fg'
                     }`}
                 >
                   <span>{opt.name}</span>
@@ -1148,7 +1148,7 @@ const ItemDetailModal = ({ item: initialItem, t, onClose, onAdded, onUnavailable
             >
               {/* Name & Price */}
               <div className="text-center">
-                <h1 
+                <h1
                   className="font-bold text-fg leading-tight px-2"
                   style={{ fontSize: 'var(--font-size-heading, 26px)' }}
                 >
@@ -1175,10 +1175,10 @@ const ItemDetailModal = ({ item: initialItem, t, onClose, onAdded, onUnavailable
 
                 {item.description && (
                   <div className="mt-4 px-1">
-                    <p 
-                      className="leading-relaxed text-fg font-sans" 
+                    <p
+                      className="leading-relaxed text-fg font-sans"
                       style={{ fontSize: 'var(--font-size-body, 14px)' }}
-                      dangerouslySetInnerHTML={renderSafeOfferHtml(item.description)} 
+                      dangerouslySetInnerHTML={renderSafeOfferHtml(item.description)}
                     />
                   </div>
                 )}
@@ -1336,7 +1336,7 @@ const ItemDetailModal = ({ item: initialItem, t, onClose, onAdded, onUnavailable
               <div className="flex items-center justify-between px-5 pt-2 pb-3">
                 <div className="min-w-0">
                   <p className="text-[10px] uppercase tracking-[0.18em] text-fg-muted font-bold">Customize</p>
-                  <h2 
+                  <h2
                     className="font-display italic font-black text-fg truncate"
                     style={{ fontSize: 'var(--font-size-heading, 20px)' }}
                   >
@@ -1357,7 +1357,7 @@ const ItemDetailModal = ({ item: initialItem, t, onClose, onAdded, onUnavailable
                   <section>
                     <h3 className="text-[11px] uppercase tracking-[0.16em] font-black text-fg mb-2">Spice Level</h3>
                     <div className="flex gap-1.5 flex-wrap">
-                      <span 
+                      <span
                         className="px-3 h-8 inline-flex items-center rounded-full bg-primary/10 text-primary font-bold"
                         style={{ fontSize: 'var(--font-size-body, 11px)' }}
                       >
@@ -1374,8 +1374,8 @@ const ItemDetailModal = ({ item: initialItem, t, onClose, onAdded, onUnavailable
                     <h3 className="text-[11px] uppercase tracking-[0.16em] font-black text-fg mb-2">Allergens</h3>
                     <div className="flex gap-2 flex-wrap">
                       {warnings.map((w) => (
-                        <span 
-                          key={w.id} 
+                        <span
+                          key={w.id}
                           className="rounded-full bg-red-500/10 px-3 py-1 font-bold text-red-500 border border-red-500/20"
                           style={{ fontSize: 'var(--font-size-body, 12px)' }}
                         >
@@ -1392,8 +1392,8 @@ const ItemDetailModal = ({ item: initialItem, t, onClose, onAdded, onUnavailable
                     <h3 className="text-[11px] uppercase tracking-[0.16em] font-black text-fg mb-2">Allergens</h3>
                     <div className="flex gap-1.5 flex-wrap">
                       {item.allergens.map((a) => (
-                        <span 
-                          key={a} 
+                        <span
+                          key={a}
                           className="px-3 h-8 inline-flex items-center rounded-full bg-primary/10 text-primary font-bold"
                           style={{ fontSize: 'var(--font-size-body, 11px)' }}
                         >
@@ -1846,7 +1846,7 @@ const TrendingRail = ({ items, onSelectItem, onSeeAll }) => {
 const CategoriesList = ({ categories, onSelect }) => {
   // categories[0] is the synthetic "All" entry — show only real API categories
   const realCats = categories.slice(1)
-  
+
   const rootRef = useRef(null)
   const scrollY = useMotionValue(0)
   const rotateImg = useTransform(scrollY, [0, 1000], [0, 360], { clamp: false })
@@ -1871,7 +1871,7 @@ const CategoriesList = ({ categories, onSelect }) => {
 
     scrollEl.addEventListener('scroll', handleScroll, { passive: true })
     if (scrollEl !== window) scrollY.set(scrollEl.scrollTop || 0)
-    
+
     return () => scrollEl.removeEventListener('scroll', handleScroll)
   }, [scrollY])
 
@@ -1913,8 +1913,8 @@ const CategoriesList = ({ categories, onSelect }) => {
                     </div>
                   </div>
                   <div className={`flex-1 flex flex-col self-start text-right pl-4 pr-6 ${idx === 0 ? 'pt-8' : 'pt-2'}`}>
-                    <h3 
-                      className="font-display font-bold leading-tight text-heading mb-1" 
+                    <h3
+                      className="font-display font-bold leading-tight text-heading mb-1"
                       style={{ color: cat.text_color || undefined, fontSize: 'var(--font-size-heading, 25px)' }}
                     >
                       {cat.name}
@@ -1951,8 +1951,8 @@ const CategoriesList = ({ categories, onSelect }) => {
                     </div>
                   </div>
                   <div className="flex-1 flex flex-col self-start pt-0 text-left pr-4 pl-6">
-                    <h3 
-                      className="font-display font-bold leading-tight text-heading mb-1" 
+                    <h3
+                      className="font-display font-bold leading-tight text-heading mb-1"
                       style={{ color: cat.text_color || undefined, fontSize: 'var(--font-size-heading, 25px)' }}
                     >
                       {cat.name}
@@ -1977,7 +1977,7 @@ const CategoriesList = ({ categories, onSelect }) => {
 }
 
 // ── MenuScreen ───────────────────────────────────────────────────────────────
-const MenuScreen = ({ onTitleDoubleClick, onNavigate }) => {
+const MenuScreen = ({ onTitleDoubleClick, onLogoDoubleClick, onNavigate }) => {
   const { t } = useTranslation('menu')
   const dispatch = useDispatch()
 
@@ -1992,6 +1992,7 @@ const MenuScreen = ({ onTitleDoubleClick, onNavigate }) => {
   const venueName = useSelector(selectVenueName)
   const noTableAssigned = useSelector(selectNoTableAssigned)
   const lastTapTime = useRef(0)
+  const lastLogoTapTime = useRef(0)
 
   const [menu, setMenu] = useState(null)
   const [fetchError, setError] = useState(false)
@@ -2217,6 +2218,13 @@ const MenuScreen = ({ onTitleDoubleClick, onNavigate }) => {
     else { lastTapTime.current = now }
   }
 
+  const handleLogoClick = () => {
+    if (!onLogoDoubleClick) return
+    const now = Date.now()
+    if (now - lastLogoTapTime.current < DOUBLE_TAP_MS) { lastLogoTapTime.current = 0; onLogoDoubleClick() }
+    else { lastLogoTapTime.current = now }
+  }
+
   const itemsById = useMemo(() => {
     const map = new Map()
     const cats = Array.isArray(menu?.categories) ? menu.categories : []
@@ -2324,6 +2332,7 @@ const MenuScreen = ({ onTitleDoubleClick, onNavigate }) => {
                 </div>
                 <div className="flex items-center gap-2 shrink-0 pt-1">
                   <motion.div initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.45 }}
+                    onClick={handleLogoClick}
                     className="h-12 rounded-2xl bg-white border border-primary/20 shadow-md shadow-primary/20 flex items-center justify-center px-2.5">
                     <img src={logoUrl ?? aycLogo} alt={venueName ?? 'AYC'} className="h-10 w-auto max-w-[64px] object-contain" />
                   </motion.div>
@@ -2386,7 +2395,7 @@ const MenuScreen = ({ onTitleDoubleClick, onNavigate }) => {
                 <ArrowLeft className="h-5 w-5 text-obsidian" />
               </TouchButton>
               <div className="flex-1 min-w-0">
-                <h1 
+                <h1
                   className="font-display font-[700] leading-tight text-fg truncate"
                   style={{ fontSize: 'var(--font-size-heading, 24px)' }}
                 >
@@ -2623,12 +2632,12 @@ const MenuScreen = ({ onTitleDoubleClick, onNavigate }) => {
         {flyingItem && (
           <motion.div
             initial={{ opacity: 1, scale: 1, top: '50%', left: '50%', x: '-50%', y: '-50%' }}
-            animate={{ 
+            animate={{
               opacity: [1, 1, 0],
               scale: [1, 0.8, 0.1],
-              top: '36px', 
+              top: '36px',
               left: 'calc(100vw - 44px)',
-              x: '-50%', y: '-50%' 
+              x: '-50%', y: '-50%'
             }}
             transition={{ duration: 1.5, ease: [0.32, 0.72, 0, 1] }}
             className="fixed z-[250] pointer-events-none rounded-full shadow-lg overflow-hidden border-2 border-white bg-card"

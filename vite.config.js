@@ -2,6 +2,7 @@ import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import { MENU_IMAGES_CACHE_NAME } from './src/core/constants/cacheNames.js'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
@@ -12,10 +13,6 @@ export default defineConfig(({ mode }) => {
     .replace(/\/api\/v1\/?$/, '')
 
   return {
-    // GitHub Pages serves this project repo under /ayc_pwa/ (not the domain
-    // root), so every built asset/route must be prefixed with that path. If you
-    // later attach a custom domain (served from /), change this back to '/'.
-    base: '/ayc_pwa/',
     plugins: [
       react(),
       tailwindcss(),
@@ -41,7 +38,7 @@ export default defineConfig(({ mode }) => {
           // error page instead of the cached app shell. navigateFallback widens
           // that to every route; the denylist keeps actual API calls from ever
           // being served the HTML shell.
-          navigateFallback: '/ayc_pwa/index.html',
+          navigateFallback: '/index.html',
           navigateFallbackDenylist: [/^\/api\//],
           // Menu item images are venue-uploaded and served at runtime (not part
           // of the build), so they need a runtime rule rather than globPatterns.
@@ -52,7 +49,7 @@ export default defineConfig(({ mode }) => {
               urlPattern: ({ request }) => request.destination === 'image',
               handler: 'CacheFirst',
               options: {
-                cacheName: 'ayc-menu-images',
+                cacheName: MENU_IMAGES_CACHE_NAME,
                 expiration: { maxEntries: 300, maxAgeSeconds: 30 * 24 * 60 * 60 },
                 cacheableResponse: { statuses: [0, 200] },
               },

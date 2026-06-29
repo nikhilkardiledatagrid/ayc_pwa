@@ -15,6 +15,7 @@ import { startSyncEngine } from './core/utils/syncEngine'
 import { JOURNEYS } from './constants/journeys'
 import DeviceSetupScreen from './journeys/device-setup/DeviceSetupScreen'
 import DeviceReconfigScreen from './journeys/device-setup/DeviceReconfigScreen'
+import CacheDebugScreen from './journeys/device-setup/CacheDebugScreen'
 import MenuScreen from './journeys/menu/MenuScreen'
 import StaticMenuScreen from './journeys/menu/StaticMenuScreen'
 import WifiScreen from './journeys/wifi/WifiScreen'
@@ -74,6 +75,7 @@ export default function App() {
     () => readJourneyFromUrl() ?? JOURNEYS.MENU,
   )
   const [reconfiguring, setReconfiguring] = useState(false)
+  const [cacheDebugOpen, setCacheDebugOpen] = useState(false)
 
   const setJourney = useCallback((key) => {
     syncJourneyToUrl(key)
@@ -241,7 +243,7 @@ export default function App() {
 
   const renderScreen = () => {
     switch (journey) {
-      case JOURNEYS.MENU: return <MenuScreen onTitleDoubleClick={() => setReconfiguring(true)} onNavigate={setJourney} />
+      case JOURNEYS.MENU: return <MenuScreen onTitleDoubleClick={() => setReconfiguring(true)} onLogoDoubleClick={() => setCacheDebugOpen(true)} onNavigate={setJourney} />
       case JOURNEYS.STATIC_MENU: return <StaticMenuScreen onNavigate={setJourney} />
       case JOURNEYS.WIFI: return <WifiScreen onNavigate={setJourney} />
       case JOURNEYS.REVIEW: return <ReviewScreen onNavigate={setJourney} />
@@ -280,6 +282,9 @@ export default function App() {
           onClose={() => setReconfiguring(false)}
           onTableChanged={handleTableChanged}
         />
+      )}
+      {cacheDebugOpen && (
+        <CacheDebugScreen onClose={() => setCacheDebugOpen(false)} />
       )}
     </div>
   )
