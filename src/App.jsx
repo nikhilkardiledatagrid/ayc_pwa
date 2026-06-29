@@ -9,7 +9,7 @@ import { isDeviceConfigured, getDeviceId } from './core/utils/deviceConfig'
 import { getDeviceParams } from './core/utils/urlParams'
 import { initSession } from './core/utils/sessionManager'
 import { fetchDeviceConfig, fetchSessionConfig } from './journeys/device-setup/deviceSetupAPI'
-import { cacheAndFetch, primeImageCache, collectMenuImageUrls } from './core/utils/offlineCache'
+import { cacheAndFetch, primeImageCache, collectMenuImageUrls, startImageCacheRetry } from './core/utils/offlineCache'
 import { pwaApiService } from './core/api/pwaApiService'
 import { startSyncEngine } from './core/utils/syncEngine'
 import { JOURNEYS } from './constants/journeys'
@@ -30,23 +30,16 @@ import BottomNav from './components/layout/BottomNav'
 import FloatingWaiterCall from './components/layout/FloatingWaiterCall'
 import OfflineBanner from './components/feedback/OfflineBanner'
 
-// Deploy base path (e.g. '/' locally, '/ayc_pwa/' on GitHub Pages). Vite injects
-// this from the `base` config so routing works identically at the domain root or
-// under a subpath. Always has a trailing slash.
-const BASE = import.meta.env.BASE_URL
-
-/** Read journey key from URL pathname — e.g. /ayc_pwa/menu → 'menu' */
+/** Read journey key from URL pathname — e.g. /menu → 'menu' */
 const readJourneyFromUrl = () => {
-  let path = window.location.pathname
-  if (path.startsWith(BASE)) path = path.slice(BASE.length)
-  const key = path.replace(/^\//, '').split('/')[0]
+  const key = window.location.pathname.replace(/^\//, '').split('/')[0]
   return Object.values(JOURNEYS).includes(key) ? key : null
 }
 
-/** Push path (under the deploy base) while preserving all device query params */
+/** Push path while preserving all device query params */
 const syncJourneyToUrl = (key) => {
-  const journey = key || JOURNEYS.MENU
-  window.history.pushState(null, '', `${BASE}${journey}${window.location.search}`)
+  const path = key ? `/${key}` : `/${JOURNEYS.MENU}`
+  window.history.pushState(null, '', `${path}${window.location.search}`)
 }
 
 /**
@@ -62,10 +55,10 @@ const syncJourneyToUrl = (key) => {
  * Task 7.8: replace DEV MOCK with real GET /pwa/config fetch.
  */
 export default function App() {
-  const dispatch  = useDispatch()
-  const { t }     = useTranslation('common')
-  const pwaFeatures  = useSelector(selectPwaFeatures)
-  const venueId      = useSelector(selectVenueId)
+  const dispatch = useDispatch()
+  const { t } = useTranslation('common')
+  const pwaFeatures = useSelector(selectPwaFeatures)
+  const venueId = useSelector(selectVenueId)
 
   // True once the REAL device config has loaded (carries venue_id) and the admin
   // has turned every PWA feature off. Gating on venue_id (not the mock-set
@@ -77,7 +70,7 @@ export default function App() {
   // so we can hold a neutral loading screen until then — avoiding a flash of the
   // menu before we know which features the admin enabled.
   const [configReady, setConfigReady] = useState(false)
-  const [journey,    setJourneyState] = useState(
+  const [journey, setJourneyState] = useState(
     () => readJourneyFromUrl() ?? JOURNEYS.MENU,
   )
   const [reconfiguring, setReconfiguring] = useState(false)
@@ -106,11 +99,11 @@ export default function App() {
   useEffect(() => {
     if (import.meta.env.DEV) {
       const mockConfig = {
-        scenario:   'C',
-        features:   { menu: true, wifi: true, lead: true, review: true, waiter: true },
+        scenario: 'C',
+        features: { menu: true, wifi: true, lead: true, review: true, waiter: true },
         journey_config: { wifi: true, review: true, loyalty: true, loyalty_benefits: '10% off your next visit + a free dessert on your birthday' },
-        branding:   { venue_name: 'AYC Network', logo_url: null },
-        timeouts:   null,
+        branding: { venue_name: 'AYC Network', logo_url: null },
+        timeouts: null,
         return_url: null,
       }
       dispatch(setVenueConfig(mockConfig))
@@ -132,6 +125,7 @@ export default function App() {
   useEffect(() => {
     if (!configured) return
     startSyncEngine()
+    startImageCacheRetry()
 
     const run = async () => {
       try {
@@ -171,17 +165,17 @@ export default function App() {
 
         // Use first table as default for session context (device serves multiple tables)
         const firstTable = deviceCfg.tables?.[0]
-        const sessionId  = await initSession({
-          table_name:   firstTable?.name ?? '',
-          scenario:     getDeviceParams().scenario,
+        const sessionId = await initSession({
+          table_name: firstTable?.name ?? '',
+          scenario: getDeviceParams().scenario,
           sessionTtlMs: sessionTtlMs ?? undefined,
         })
 
         dispatch(setSession({
           sessionId,
-          venueId:  deviceCfg.venue_id,
+          venueId: deviceCfg.venue_id,
           screenId: getDeviceId(),
-          table:    firstTable?.name ?? '',
+          table: firstTable?.name ?? '',
           scenario: getDeviceParams().scenario,
         }))
       } catch {
@@ -247,18 +241,18 @@ export default function App() {
 
   const renderScreen = () => {
     switch (journey) {
-      case JOURNEYS.MENU:        return <MenuScreen onTitleDoubleClick={() => setReconfiguring(true)} onNavigate={setJourney} />
+      case JOURNEYS.MENU: return <MenuScreen onTitleDoubleClick={() => setReconfiguring(true)} onNavigate={setJourney} />
       case JOURNEYS.STATIC_MENU: return <StaticMenuScreen onNavigate={setJourney} />
-      case JOURNEYS.WIFI:        return <WifiScreen onNavigate={setJourney} />
-      case JOURNEYS.REVIEW:      return <ReviewScreen onNavigate={setJourney} />
-      case JOURNEYS.LEAD:        return <LeadScreen />
-      case JOURNEYS.WAITER:      return <WaiterCallScreen onNavigate={setJourney} />
-      case JOURNEYS.DASHBOARD:   return <DashboardScreen />
-      case JOURNEYS.CART:        return <CartScreen onNavigate={setJourney} />
-      case JOURNEYS.LOYALTY:     return <LoyaltyScreen onNavigate={setJourney} />
-      case JOURNEYS.GAME:        return <GamesScreen onNavigate={setJourney} />
+      case JOURNEYS.WIFI: return <WifiScreen onNavigate={setJourney} />
+      case JOURNEYS.REVIEW: return <ReviewScreen onNavigate={setJourney} />
+      case JOURNEYS.LEAD: return <LeadScreen />
+      case JOURNEYS.WAITER: return <WaiterCallScreen onNavigate={setJourney} />
+      case JOURNEYS.DASHBOARD: return <DashboardScreen />
+      case JOURNEYS.CART: return <CartScreen onNavigate={setJourney} />
+      case JOURNEYS.LOYALTY: return <LoyaltyScreen onNavigate={setJourney} />
+      case JOURNEYS.GAME: return <GamesScreen onNavigate={setJourney} />
       case JOURNEYS.STORE_CLOSED: return <StoreClosedScreen onNavigate={setJourney} />
-      default:                   return <MenuScreen onNavigate={setJourney} />
+      default: return <MenuScreen onNavigate={setJourney} />
     }
   }
 

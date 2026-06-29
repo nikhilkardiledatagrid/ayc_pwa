@@ -1,10 +1,21 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { cacheAndFetch, primeImageCache, collectMenuImageUrls } from '../core/utils/offlineCache'
-import { clearReferenceCache, getCacheEntry } from '../core/db/aycDb'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import {
+  cacheAndFetch,
+  primeImageCache,
+  collectMenuImageUrls,
+  flushImageCache,
+  startImageCacheRetry,
+  _stopImageCacheRetryForTests,
+} from '../core/utils/offlineCache'
+import { clearReferenceCache, getCacheEntry, setCacheEntry } from '../core/db/aycDb'
 
 beforeEach(async () => {
   await clearReferenceCache()
   Object.defineProperty(navigator, 'onLine', { writable: true, value: true })
+})
+
+afterEach(() => {
+  _stopImageCacheRetryForTests()
 })
 
 describe('cacheAndFetch — online', () => {
@@ -101,9 +112,9 @@ describe('primeImageCache', () => {
   it('fires a fetch for every non-empty url and swallows failures', async () => {
     const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue({})
 
-    primeImageCache(['a.jpg', null, 'b.jpg'])
-    await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2))
+    await primeImageCache(['a.jpg', null, 'b.jpg'])
 
+    expect(fetchSpy).toHaveBeenCalledTimes(2)
     expect(fetchSpy).toHaveBeenCalledWith('a.jpg')
     expect(fetchSpy).toHaveBeenCalledWith('b.jpg')
     fetchSpy.mockRestore()
@@ -112,7 +123,90 @@ describe('primeImageCache', () => {
   it('does not throw when fetch rejects', async () => {
     vi.spyOn(globalThis, 'fetch').mockRejectedValue(new Error('offline'))
 
-    expect(() => primeImageCache(['a.jpg'])).not.toThrow()
+    await expect(primeImageCache(['a.jpg'])).resolves.not.toThrow()
+    vi.restoreAllMocks()
+  })
+
+  it('persists failed urls to the pending_images cache entry', async () => {
+    vi.spyOn(globalThis, 'fetch').mockImplementation((url) =>
+      url === 'bad.jpg' ? Promise.reject(new Error('offline')) : Promise.resolve({}),
+    )
+
+    await primeImageCache(['good.jpg', 'bad.jpg'])
+
+    expect((await getCacheEntry('pending_images')).data).toEqual(['bad.jpg'])
+    vi.restoreAllMocks()
+  })
+
+  it('clears a url from pending once a later attempt succeeds', async () => {
+    vi.spyOn(globalThis, 'fetch').mockRejectedValue(new Error('offline'))
+    await primeImageCache(['a.jpg'])
+    expect((await getCacheEntry('pending_images')).data).toEqual(['a.jpg'])
+
+    vi.restoreAllMocks()
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue({})
+    await primeImageCache(['a.jpg'])
+
+    expect((await getCacheEntry('pending_images')).data).toEqual([])
+    vi.restoreAllMocks()
+  })
+})
+
+describe('flushImageCache', () => {
+  it('does nothing when offline', async () => {
+    await setCacheEntry('pending_images', ['a.jpg'])
+    Object.defineProperty(navigator, 'onLine', { writable: true, value: false })
+    const fetchSpy = vi.spyOn(globalThis, 'fetch')
+
+    await flushImageCache()
+
+    expect(fetchSpy).not.toHaveBeenCalled()
+    fetchSpy.mockRestore()
+  })
+
+  it('does nothing when nothing is pending', async () => {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch')
+
+    await flushImageCache()
+
+    expect(fetchSpy).not.toHaveBeenCalled()
+    fetchSpy.mockRestore()
+  })
+
+  it('retries pending urls, clearing the ones that now succeed', async () => {
+    await setCacheEntry('pending_images', ['a.jpg', 'b.jpg'])
+    vi.spyOn(globalThis, 'fetch').mockImplementation((url) =>
+      url === 'b.jpg' ? Promise.reject(new Error('still offline')) : Promise.resolve({}),
+    )
+
+    await flushImageCache()
+
+    expect((await getCacheEntry('pending_images')).data).toEqual(['b.jpg'])
+    vi.restoreAllMocks()
+  })
+})
+
+describe('startImageCacheRetry', () => {
+  it('flushes immediately when already online', async () => {
+    await setCacheEntry('pending_images', ['a.jpg'])
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue({})
+
+    startImageCacheRetry()
+
+    await vi.waitFor(async () => expect((await getCacheEntry('pending_images')).data).toEqual([]))
+    vi.restoreAllMocks()
+  })
+
+  it('flushes on the online event', async () => {
+    Object.defineProperty(navigator, 'onLine', { writable: true, value: false })
+    await setCacheEntry('pending_images', ['a.jpg'])
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue({})
+    startImageCacheRetry()
+
+    Object.defineProperty(navigator, 'onLine', { writable: true, value: true })
+    window.dispatchEvent(new Event('online'))
+
+    await vi.waitFor(async () => expect((await getCacheEntry('pending_images')).data).toEqual([]))
     vi.restoreAllMocks()
   })
 })

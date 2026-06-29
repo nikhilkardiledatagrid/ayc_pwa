@@ -41,17 +41,70 @@ export const cacheAndFetch = async (key, fetchData) => {
   }
 }
 
+const PENDING_IMAGES_KEY = 'pending_images'
+
+let isPriming = false
+
 /**
  * Proactively warms the Cache Storage entry for each image URL (via the
  * Workbox CacheFirst runtimeCaching route configured in vite.config.js),
- * rather than waiting for a guest to scroll an <img> into view. Fire-and-forget
- * — a priming failure must never block menu rendering.
+ * rather than waiting for a guest to scroll an <img> into view. The caller
+ * never needs to await this — failures are tracked internally (in the
+ * 'pending_images' reference_cache entry) and retried later by
+ * flushImageCache(), rather than blocking or surfacing to menu rendering.
  * @param {string[]} urls
  */
-export const primeImageCache = (urls = []) => {
-  urls.filter(Boolean).forEach((url) => {
-    fetch(url).catch(() => {})
-  })
+export const primeImageCache = async (urls = []) => {
+  const targets = urls.filter(Boolean)
+  if (targets.length === 0 || isPriming) return
+
+  isPriming = true
+  try {
+    const results = await Promise.allSettled(targets.map((url) => fetch(url)))
+    const failed = targets.filter((_, i) => results[i].status === 'rejected')
+    await setCacheEntry(PENDING_IMAGES_KEY, failed)
+  } finally {
+    isPriming = false
+  }
+}
+
+/**
+ * Re-attempts whatever image URLs failed to prime last time (see
+ * primeImageCache()). No-op when offline or when nothing is pending.
+ * Delegates straight to primeImageCache(), which recomputes and overwrites
+ * the pending list with whatever still fails.
+ */
+export const flushImageCache = async () => {
+  if (!navigator.onLine) return
+  const entry = await getCacheEntry(PENDING_IMAGES_KEY)
+  const pending = entry?.data ?? []
+  if (pending.length === 0) return
+  await primeImageCache(pending)
+}
+
+let imageRetryIntervalHandle = null
+
+/**
+ * Wires flushImageCache() to run automatically: on reconnect, once at boot
+ * if already online, and on a periodic safety net (mirrors syncEngine.js's
+ * startSyncEngine() — the 'online' event isn't reliable across every
+ * network transition).
+ */
+export const startImageCacheRetry = () => {
+  window.addEventListener('online', flushImageCache)
+  if (navigator.onLine) flushImageCache()
+  if (!imageRetryIntervalHandle) {
+    imageRetryIntervalHandle = setInterval(() => flushImageCache(), 60 * 1000)
+  }
+}
+
+/** Only for tests — stops the periodic interval and listener. */
+export const _stopImageCacheRetryForTests = () => {
+  window.removeEventListener('online', flushImageCache)
+  if (imageRetryIntervalHandle) {
+    clearInterval(imageRetryIntervalHandle)
+    imageRetryIntervalHandle = null
+  }
 }
 
 /**
