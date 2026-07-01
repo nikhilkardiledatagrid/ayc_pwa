@@ -31,15 +31,23 @@ import BottomNav from './components/layout/BottomNav'
 import FloatingWaiterCall from './components/layout/FloatingWaiterCall'
 import OfflineBanner from './components/feedback/OfflineBanner'
 
-/** Read journey key from URL pathname — e.g. /menu → 'menu' */
+// Vite's base ('/' in dev, '/ayc_pwa/' for the GitHub Pages build). Both the
+// reader and writer below strip/prepend it so the journey key is parsed from
+// the segment *after* the base, not from the base itself (e.g. under /ayc_pwa/
+// the first path segment is 'ayc_pwa', not the journey).
+const BASE = import.meta.env.BASE_URL
+
+/** Read journey key from URL pathname — e.g. /ayc_pwa/menu → 'menu' */
 const readJourneyFromUrl = () => {
-  const key = window.location.pathname.replace(/^\//, '').split('/')[0]
+  let path = window.location.pathname
+  if (path.startsWith(BASE)) path = path.slice(BASE.length)
+  const key = path.replace(/^\//, '').split('/')[0]
   return Object.values(JOURNEYS).includes(key) ? key : null
 }
 
-/** Push path while preserving all device query params */
+/** Push base-prefixed path while preserving all device query params */
 const syncJourneyToUrl = (key) => {
-  const path = key ? `/${key}` : `/${JOURNEYS.MENU}`
+  const path = `${BASE}${key || JOURNEYS.MENU}`
   window.history.pushState(null, '', `${path}${window.location.search}`)
 }
 

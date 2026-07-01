@@ -4,8 +4,12 @@ import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import { MENU_IMAGES_CACHE_NAME } from './src/core/constants/cacheNames.js'
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd(), '')
+  // GitHub Pages serves this as a project site under /ayc_pwa/, so the build
+  // must emit base-prefixed asset URLs. Dev stays at root ("/") so `npm run dev`
+  // and the pwa-aycqa.datagrid.co.in host keep working unchanged.
+  const base = command === 'build' ? '/ayc_pwa/' : '/'
   // Venue-theme fonts (fonts.css) are served from the backend public root at
   // /fonts/*. Derive that origin by stripping the /api/v1 suffix off the API
   // base so dev requests to /fonts proxy through to Laravel (avoids CORS).
@@ -13,6 +17,7 @@ export default defineConfig(({ mode }) => {
     .replace(/\/api\/v1\/?$/, '')
 
   return {
+    base,
     plugins: [
       react(),
       tailwindcss(),
@@ -38,7 +43,10 @@ export default defineConfig(({ mode }) => {
           // error page instead of the cached app shell. navigateFallback widens
           // that to every route; the denylist keeps actual API calls from ever
           // being served the HTML shell.
-          navigateFallback: '/index.html',
+          // Base-prefixed so the precached app shell (/ayc_pwa/index.html under
+          // Pages) is what a hard reload on a deep route resolves to — a bare
+          // /index.html is not in the precache manifest under a subpath.
+          navigateFallback: `${base}index.html`,
           navigateFallbackDenylist: [/^\/api\//],
           // Menu item images are venue-uploaded and served at runtime (not part
           // of the build), so they need a runtime rule rather than globPatterns.
